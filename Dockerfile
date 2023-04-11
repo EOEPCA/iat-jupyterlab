@@ -19,5 +19,7 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
     mv ./kubectl /usr/local/bin
 
 # AWS CLI installation commands
-RUN	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN	unzip awscliv2.zip && ./aws/install
+RUN	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+	unzip awscliv2.zip && ./aws/install && \
+    rm -fr aws awscliv2.zip && \
+    pip3 install awscli-plugin-endpoint
