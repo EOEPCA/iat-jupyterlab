@@ -4,7 +4,7 @@ USER root
 
 # prerequisites
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y update && \
-    apt-get -y install curl python3-pip ca-certificates unzip groff less tzdata keyboard-configuration
+    apt-get -y install curl python3-pip ca-certificates unzip groff less tzdata keyboard-configuration git
 
 # podman
 RUN echo "deb [trusted=yes] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list && \
