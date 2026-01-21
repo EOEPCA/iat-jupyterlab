@@ -1,0 +1,4 @@
+image_name: iat-jupyterlab
+image_prefix: eoepca
+image_version: 1.3.0
+image_registry: ghcr.io
