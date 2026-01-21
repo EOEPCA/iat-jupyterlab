@@ -51,20 +51,7 @@ RUN curl -fsSL \
     "https://github.com/oras-project/oras/releases/download/v${ORAS_VERSION}/oras_${ORAS_VERSION}_linux_amd64.tar.gz" \
     | tar -xz -C /usr/local/bin oras && chmod +x /usr/local/bin/oras
 
-# -------------------------------------------------------------------
-# yq / jq
-# -------------------------------------------------------------------
-ARG YQ_VERSION=v4.45.1
-RUN curl -fsSL \
-    "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64" \
-    -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq
-
-ARG JQ_VERSION=jq-1.8.1
-RUN curl -fsSL \
-    "https://github.com/jqlang/jq/releases/download/${JQ_VERSION}/jq-linux-amd64" \
-    -o /usr/local/bin/jq && chmod +x /usr/local/bin/jq
-
-# -------------------------------------------------------------------
+    # -------------------------------------------------------------------
 # Python tooling
 # -------------------------------------------------------------------
 ARG CALRISSIAN_VERSION=0.18.1
@@ -87,5 +74,18 @@ ARG HATCH_VERSION=1.16.2
 RUN curl -fsSL \
     "https://github.com/pypa/hatch/releases/download/hatch-v${HATCH_VERSION}/hatch-x86_64-unknown-linux-gnu.tar.gz" \
     | tar -xz -C /usr/local/bin hatch && chmod +x /usr/local/bin/hatch
+
+# -------------------------------------------------------------------
+# yq / jq
+# -------------------------------------------------------------------
+ARG YQ_VERSION=v4.45.1
+RUN curl -fsSL \
+    "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64" \
+    -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq
+
+ARG JQ_VERSION=jq-1.8.1
+RUN curl -fsSL \
+    "https://github.com/jqlang/jq/releases/download/${JQ_VERSION}/jq-linux-amd64" \
+    -o /usr/local/bin/jq && chmod +x /usr/local/bin/jq
 
 USER ${NB_USER}
