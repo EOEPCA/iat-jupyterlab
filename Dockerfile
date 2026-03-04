@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     uidmap \
     slirp4netns \
     fuse-overlayfs \
+    nextcloud-desktop-cmd \ 
   && rm -rf /var/lib/apt/lists/*
 
 # For tools that try to invoke "docker" (e.g., some CWL setups)
@@ -87,5 +88,11 @@ ARG JQ_VERSION=jq-1.8.1
 RUN curl -fsSL \
     "https://github.com/jqlang/jq/releases/download/${JQ_VERSION}/jq-linux-amd64" \
     -o /usr/local/bin/jq && chmod +x /usr/local/bin/jq
+
+COPY nc-sync /usr/local/bin/nc-sync
+RUN chmod 755 /usr/local/bin/nc-sync
+
+COPY jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
+RUN chmod 644 /etc/jupyter/jupyter_server_config.py
 
 USER ${NB_USER}
