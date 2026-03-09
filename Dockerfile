@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     uidmap \
     slirp4netns \
     fuse-overlayfs \
-    nextcloud-desktop-cmd \ 
+    nextcloud-desktop-cmd=3.11.0-1.1build4 \ 
   && rm -rf /var/lib/apt/lists/*
 
 # For tools that try to invoke "docker" (e.g., some CWL setups)
