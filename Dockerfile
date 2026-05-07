@@ -52,7 +52,7 @@ RUN curl -fsSL \
     "https://github.com/oras-project/oras/releases/download/v${ORAS_VERSION}/oras_${ORAS_VERSION}_linux_amd64.tar.gz" \
     | tar -xz -C /usr/local/bin oras && chmod +x /usr/local/bin/oras
 
-    # -------------------------------------------------------------------
+# -------------------------------------------------------------------
 # Python tooling
 # -------------------------------------------------------------------
 ARG CALRISSIAN_VERSION=0.18.1
@@ -67,6 +67,10 @@ RUN pip install --no-cache-dir \
     cwltest \
     "calrissian==${CALRISSIAN_VERSION}" \
  && python -m bash_kernel.install
+
+# Fix: pre-import ipykernel.debugger before kernel threads start.
+RUN printf 'try:\n    import ipykernel.debugger\nexcept Exception:\n    pass\n' \
+    > /opt/conda/lib/python3.12/sitecustomize.py
 
 # -------------------------------------------------------------------
 # hatch
@@ -94,5 +98,13 @@ RUN chmod 755 /usr/local/bin/nc-sync
 
 COPY jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
 RUN chmod 644 /etc/jupyter/jupyter_server_config.py
+
+# -------------------------------------------------------------------
+# Startup helper: copy /opt/notebooks/*.ipynb to ~/drive at first launch.
+# Child images add their notebooks via COPY ... /opt/notebooks/.
+# -------------------------------------------------------------------
+RUN mkdir -p /usr/local/bin/start-notebook.d
+COPY scripts/copy-notebooks.sh /usr/local/bin/start-notebook.d/copy-notebooks.sh
+RUN chmod +x /usr/local/bin/start-notebook.d/copy-notebooks.sh
 
 USER ${NB_USER}
